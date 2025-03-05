@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  front:
+    tty: true
+    working_dir: /app
+    command: >
+      sh -c "npm install &&
+             npm run build &&
+             npm run start"
+    container_name: "${PROJECTID}_front"
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ".:/app"
+    ports:
+      - "${HOST_PORT}:3000"
+    networks:
+      - common_network
+networks:
+  common_network:
+    name: common_network
